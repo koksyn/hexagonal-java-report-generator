@@ -31,7 +31,7 @@ The purpose of this test is to see how you approach a problem and what your solu
 like. The requirements for this test should be straightforward to grasp. When implementing a
 solution please keep things simple but well engineered.
 
-#### Task Content
+#### > Task Content
 
 Implement an API query and transform this data into report available via REST API. Create a
 Java web application that provides ​/**report**​ service handling PUT, GET and DELETE
@@ -85,7 +85,7 @@ requests.
         }
         ```
 
-##### How report is generated?
+#### > How report is generated?
 
 The application takes ​*query criteria* and queries following services:
 - https://swapi.co/api/films/
@@ -97,7 +97,7 @@ in their name and whose homeworld planet is *PLANET_NAME*.
 
 The application queries API with user input and stores transformed result in database.
 
-#### Technical requirements
+#### > Technical requirements
 
 1. Java 8 or higher.
 2. Maven or Gradle for building application.
@@ -105,7 +105,7 @@ The application queries API with user input and stores transformed result in dat
 4. Hibernate with in memory database.
 5. Spring, eg.: DI
 
-#### Verification criteria
+#### > Verification criteria
 
 1. Does it run.
 2. Unit tests run in building cycle.
@@ -122,7 +122,7 @@ Send us a fat *.war with all dependencies. Share your source code via GitHub.
 
 ### 2. Solution details
 
-#### Application architecture
+#### > Application architecture
 
 Because it's needed to fetch the data from multiple places (Star Wars API endpoints) and then to process them into different format,
 it can be said that this is a **complicated** problem (based on **Cynefin** model announced by *Dave Snowden* in 1999).
@@ -135,7 +135,7 @@ I think this is a good choice when it comes to ensuring **business domain** cons
 
 #### Cache for data from Star Wars API
 
-##### Changes in the API endpoint
+#### > Changes in the API endpoint
 
 There was no guidance in the task description whether to generate a report **synchronously** or **asynchronously**.
 
@@ -151,7 +151,7 @@ has been successfully accepted, but may not yet be processed (and visible).
 
 This has a good performance side effect, where the user does not have to wait long for the response of PUT HTTP request.
 
-##### Cache inside database
+#### > Cache inside database
 
 Instead of crawling the Star Wars API every time, when someone requests a report I made a cache for this data.
 The result of "*create/update report*" HTTP request is a Report entity marked as **incomplete**.
@@ -170,7 +170,7 @@ The next step will be to create 1000 reports from data stored in our database.
 It is worth mentioning that downloading data from Star Wars API is done **only once** instead of doing it 1000 times 
 (like in a **synchronously** way without cache).
 
-#### Concurrency
+#### > Concurrency
 
 Crawling data for future processing (from Star Wars API) uses 3 independent endpoints.
 
@@ -179,11 +179,11 @@ whose are executed simultaneously inside a Thread Pool (for planets, characters 
  
 Thanks that it's faster in terms of performance.
 
-#### Database (DDL)
+#### > Database (DDL)
 
 I added **single-field** and **composite indexes** to improve the performance of database queries made by application.  
 
-#### Minor changes inside JSON response
+#### > Minor changes inside JSON response
 
 Because there was an error in JSON inside task description (invalid format, where the film list field had no name)
 I added the name **"results"** to the Report object, which describes the list of films.
@@ -200,13 +200,13 @@ JSON after:
 
 ### 3. Compilation and running
 
-#### Environment requirements
+#### > Environment requirements
 
 You should have installed:
 - maven
 - Java JDK 1.8
 
-#### Building cycle with unit tests.
+#### > Building cycle with unit tests.
 
 Please open terminal/console inside **Project directory** and execute:
 
@@ -216,7 +216,7 @@ mvn clean install
 
 #### Running API
 
-##### From compiled sources
+#### > From compiled sources
 
 After successful building, you should be able to run the application (API).
 
@@ -231,7 +231,7 @@ The API should be accessible under: http://localhost:8081/api/
 
 Please read the **4.** (point) description below to learn how to test endpoints.
 
-##### From *.war file
+#### > From *.war file
 
 Example:
 
@@ -243,7 +243,7 @@ java -jar "report.configuration-0.0.1-SNAPSHOT.war"
 
 ### 4. Testing application manually
 
-#### Swagger 2
+#### > Swagger 2
 
 **Swagger 2** is attached and enabled in this project. 
 
@@ -252,7 +252,7 @@ These data will be returned as JSON.
 
 **Swagger endpoint URL**: http://localhost:8081/api/v2/api-docs
 
-#### User interface to test the API manually
+#### > User interface to test the API manually
 
 You can use plugins/add-ons inside your Web browser to visualize this JSON as HTML (to be human-readable).
 
