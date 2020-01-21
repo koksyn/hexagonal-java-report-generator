@@ -1,0 +1,36 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api/
+
+spring:
+  jpa:
+    open-in-view: false
+    hibernate.ddl-auto: update
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+        jdbc.batch_size: 5
+    show-sql: false
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  resources:
+    add-mappings: false
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.apache.*: INFO
+    org.hibernate: INFO
+
+swapi:
+  client:
+      request-seconds-timeout: 30
+      requests-per-day-limit: 10000
+      base-url: https://swapi.co/api/
