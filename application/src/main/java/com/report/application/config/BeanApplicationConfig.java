@@ -1,9 +1,9 @@
 package com.report.application.config;
 
 import com.report.application.port.driven.*;
-import com.report.application.port.driver.ReportCreator;
-import com.report.application.port.driver.ReportProvider;
-import com.report.application.port.driver.ReportTerminator;
+import com.report.application.domain.port.driver.ReportCreator;
+import com.report.application.domain.port.driver.ReportProvider;
+import com.report.application.domain.port.driver.ReportTerminator;
 import com.report.application.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

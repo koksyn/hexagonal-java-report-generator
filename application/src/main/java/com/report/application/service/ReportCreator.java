@@ -13,7 +13,7 @@ import org.modelmapper.ModelMapper;
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
-public class ReportCreator implements com.report.application.port.driver.ReportCreator {
+public class ReportCreator implements com.report.application.domain.port.driver.ReportCreator {
     private final ReportRepository reportRepository;
     private final ModelMapper modelMapper;
 

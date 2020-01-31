@@ -2,9 +2,9 @@ package com.report.adapter.api.controller;
 
 import com.report.adapter.api.dto.QueryCriteria;
 import com.report.application.dto.ReportDetails;
-import com.report.application.port.driver.ReportCreator;
-import com.report.application.port.driver.ReportProvider;
-import com.report.application.port.driver.ReportTerminator;
+import com.report.application.domain.port.driver.ReportCreator;
+import com.report.application.domain.port.driver.ReportProvider;
+import com.report.application.domain.port.driver.ReportTerminator;
 import com.report.application.domain.vo.ReportId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
