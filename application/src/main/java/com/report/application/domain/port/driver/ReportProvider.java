@@ -1,4 +1,4 @@
-package com.report.application.port.driver;
+package com.report.application.domain.port.driver;
 
 import com.report.application.dto.ReportDetails;
 import com.report.application.domain.vo.ReportId;

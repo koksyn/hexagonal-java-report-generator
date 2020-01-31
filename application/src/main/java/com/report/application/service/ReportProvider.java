@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class ReportProvider implements com.report.application.port.driver.ReportProvider {
+public class ReportProvider implements com.report.application.domain.port.driver.ReportProvider {
     private final ReportRepository reportRepository;
     private final ModelMapper modelMapper;
 

@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
-public class ReportTerminator implements com.report.application.port.driver.ReportTerminator {
+public class ReportTerminator implements com.report.application.domain.port.driver.ReportTerminator {
     private final ReportRepository reportRepository;
 
     @Override
