@@ -22,9 +22,7 @@ public class FilmCharacterList {
         raw.add(filmCharacter);
     }
 
-    public void clearWhenNotEmpty() {
-        if(!raw.isEmpty()) {
-            raw.clear();
-        }
+    public void clear() {
+        raw.clear();
     }
 }

@@ -54,17 +54,13 @@ public class Report {
         );
     }
 
-    public void prepareForProcessing(CharacterPhrase characterPhrase, PlanetName planetName) {
-        if(this.planetName.differ(planetName)) {
-            this.planetName = planetName;
-        }
-
-        if(this.characterPhrase.differ(characterPhrase)) {
-            this.characterPhrase = characterPhrase;
-        }
+    public void prepareForProcessing(@NonNull final CharacterPhrase characterPhrase,
+                                     @NonNull final PlanetName planetName) {
+        this.characterPhrase = characterPhrase;
+        this.planetName = planetName;
 
         reportStatus = ReportStatus.INCOMPLETE;
-        filmCharacters.clearWhenNotEmpty();
+        filmCharacters.clear();
     }
 
     public void markComplete() {

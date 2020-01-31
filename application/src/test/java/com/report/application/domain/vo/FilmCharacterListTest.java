@@ -111,28 +111,10 @@ class FilmCharacterListTest {
     }
 
     @Test
-    @DisplayName("Clearing empty list")
+    @DisplayName("Clearing list")
     void shouldDoNothing() {
-        // Given
-        when(filmCharacters.isEmpty())
-                .thenReturn(true);
-
         // When
-        filmCharacterList.clearWhenNotEmpty();
-
-        // Then
-        verify(filmCharacters, never()).clear();
-    }
-
-    @Test
-    @DisplayName("Clearing not empty list")
-    void shouldClearInternalList() {
-        // Given
-        when(filmCharacters.isEmpty())
-                .thenReturn(false);
-
-        // When
-        filmCharacterList.clearWhenNotEmpty();
+        filmCharacterList.clear();
 
         // Then
         verify(filmCharacters).clear();
