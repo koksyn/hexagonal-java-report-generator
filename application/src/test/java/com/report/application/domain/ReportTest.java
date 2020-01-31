@@ -13,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ReportTest {
@@ -219,7 +218,7 @@ class ReportTest {
     }
 
     @Test
-    @DisplayName("Adding FilmCharacter")
+    @DisplayName("Adding FilmCharacter, when it was not added before")
     void shouldAddItToTheList() {
         // Given
         FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
@@ -237,5 +236,27 @@ class ReportTest {
         FilmCharacter captured = captor.getValue();
         assertNotNull(captured);
         assertEquals(filmCharacter, captured);
+    }
+
+    @Test
+    @DisplayName("Adding FilmCharacter, when it was added before")
+    void shouldNotAcceptDuplicates() {
+        // Given
+        FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
+
+        ReportSnapshot snapshot =
+                new ReportSnapshot(reportId, characterPhrase, planetName, filmCharacterList, reportStatus);
+        Report report = Report.fromSnapshot(snapshot);
+
+        when(filmCharacterList.contains(filmCharacter)).thenReturn(true);
+
+        // When & Then
+        LogicException exception = assertThrows(
+                LogicException.class,
+                () -> report.addFilmCharacter(filmCharacter)
+        );
+
+        assertTrue(exception.getMessage()
+                .contains("Cannot add"));
     }
 }

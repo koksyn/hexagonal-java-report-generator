@@ -72,6 +72,10 @@ public class Report {
     }
 
     public void addFilmCharacter(@NonNull final FilmCharacter filmCharacter) {
+        if(filmCharacters.contains(filmCharacter)) {
+            throw new LogicException("Cannot add, because Report already has it.");
+        }
+
         filmCharacters.add(filmCharacter);
     }
 }

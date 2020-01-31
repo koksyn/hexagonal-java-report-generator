@@ -28,4 +28,9 @@ public class FilmCharacterList {
     public List<FilmCharacter> getRaw() {
         return Collections.unmodifiableList(raw);
     }
+
+    public boolean contains(@NonNull final FilmCharacter filmCharacter) {
+        return raw.stream()
+                .anyMatch(item -> item.equals(filmCharacter));
+    }
 }

@@ -80,4 +80,53 @@ public abstract class NonBlankNameTest<T extends NonBlankName> extends com.repor
         // Then
         assertEquals(raw, nonBlankName.getRaw());
     }
+
+    @ParameterizedTest
+    @MethodSource("differentObjects")
+    @DisplayName("Comparing with different objects")
+    void shouldReturnFalse(Object differentObject) {
+        // Given
+        T nonBlankName = newInstance(argumentTypes, "abc");
+
+        // When
+        boolean result = nonBlankName.equals(differentObject);
+
+        // Then
+        assertFalse(result);
+    }
+
+    private static Stream<Object> differentObjects() {
+        return Stream.of(
+                null,
+                1,
+                "abc"
+        );
+    }
+
+    @Test
+    @DisplayName("Comparing with object with different properties inside")
+    void shouldAlsoReturnFalse() {
+        // Given
+        T first = newInstance(argumentTypes, "abc");
+        T second = newInstance(argumentTypes, "def");
+
+        // When
+        boolean result = first.equals(second);
+
+        // Then
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("Comparing with the same object")
+    void shouldReturnTrue() {
+        // Given
+        T nonBlankName = newInstance(argumentTypes, "abc");
+
+        // When
+        boolean result = nonBlankName.equals(nonBlankName);
+
+        // Then
+        assertTrue(result);
+    }
 }

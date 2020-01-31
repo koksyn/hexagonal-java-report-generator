@@ -11,4 +11,15 @@ public abstract class UnsignedLongId {
     public UnsignedLongId(@NonNull final UnsignedLong raw) {
         this.raw = raw;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof UnsignedLongId) {
+            UnsignedLongId unsignedLongId = (UnsignedLongId) obj;
+
+            return raw.equals(unsignedLongId.getRaw());
+        }
+
+        return false;
+    }
 }

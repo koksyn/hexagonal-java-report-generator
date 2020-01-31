@@ -127,4 +127,41 @@ class FilmCharacterListTest {
         List<FilmCharacter> results = filmCharacterList.getRaw();
         assertFalse(results.contains(filmCharacter));
     }
+
+    @Test
+    @DisplayName("Checking, that contains a null value")
+    void shouldNotAcceptScenario() {
+        // When & Then
+        NullPointerException exception = assertThrows(
+                NullPointerException.class,
+                () -> filmCharacterList.contains(null)
+        );
+
+        assertTrue(exception
+                .getMessage()
+                .contains("is marked non-null but is null")
+        );
+    }
+
+    @Test
+    @DisplayName("Checking, that contains the same FilmCharacter")
+    void shouldReturnTrue() {
+        // When
+        boolean result = filmCharacterList.contains(filmCharacter);
+
+        // Then
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("Checking, that contains a different FilmCharacter")
+    void shouldReturnFalse() {
+        FilmCharacter filmCharacter = mock(FilmCharacter.class);
+
+        // When
+        boolean result = filmCharacterList.contains(filmCharacter);
+
+        // Then
+        assertFalse(result);
+    }
 }

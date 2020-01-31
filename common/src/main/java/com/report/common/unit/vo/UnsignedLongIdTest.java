@@ -53,4 +53,54 @@ public abstract class UnsignedLongIdTest<T extends UnsignedLongId> extends com.r
         // Then
         assertEquals(UnsignedLong.ONE, id.getRaw());
     }
+
+
+    @ParameterizedTest
+    @MethodSource("differentObjects")
+    @DisplayName("Comparing with different objects")
+    void shouldReturnFalse(Object differentObject) {
+        // Given
+        T id = newInstance(argumentTypes, UnsignedLong.ONE);
+
+        // When
+        boolean result = id.equals(differentObject);
+
+        // Then
+        assertFalse(result);
+    }
+
+    private static Stream<Object> differentObjects() {
+        return Stream.of(
+                null,
+                1,
+                "abc"
+        );
+    }
+
+    @Test
+    @DisplayName("Comparing with object with different properties inside")
+    void shouldAlsoReturnFalse() {
+        // Given
+        T first = newInstance(argumentTypes, UnsignedLong.ONE);
+        T second = newInstance(argumentTypes, UnsignedLong.ZERO);
+
+        // When
+        boolean result = first.equals(second);
+
+        // Then
+        assertFalse(result);
+    }
+
+    @Test
+    @DisplayName("Comparing with the same object")
+    void shouldReturnTrue() {
+        // Given
+        T id = newInstance(argumentTypes, UnsignedLong.ONE);
+
+        // When
+        boolean result = id.equals(id);
+
+        // Then
+        assertTrue(result);
+    }
 }

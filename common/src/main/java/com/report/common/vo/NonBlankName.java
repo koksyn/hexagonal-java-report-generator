@@ -16,6 +16,17 @@ public abstract class NonBlankName {
         this.raw = raw.trim();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof NonBlankName) {
+            NonBlankName nonBlankName = (NonBlankName) obj;
+
+            return raw.equals(nonBlankName.getRaw());
+        }
+
+        return false;
+    }
+
     private void requireNonBlank(String raw) {
         if(StringUtils.isBlank(raw)) {
             throw new ValidationException(
