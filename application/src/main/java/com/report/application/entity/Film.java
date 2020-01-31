@@ -1,6 +1,5 @@
 package com.report.application.entity;
 
-import com.report.application.meta.SwapiEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
