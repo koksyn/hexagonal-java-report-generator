@@ -1,37 +1,40 @@
 package com.report.application.domain.vo;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class FilmCharacterListTest {
     @Mock
     private FilmCharacter filmCharacter;
 
-    @Mock
     private List<FilmCharacter> filmCharacters;
-
-    @InjectMocks
     private FilmCharacterList filmCharacterList;
+
+    @BeforeEach
+    void init() {
+        filmCharacters = new ArrayList<>(Arrays.asList(filmCharacter));
+        filmCharacterList = new FilmCharacterList(filmCharacters);
+    }
 
     @Test
     @DisplayName("Getting access to Raw value for instance created by default constructor")
-    void shouldGiveNonNullLinkedList() {
+    void shouldGiveNonNullList() {
         // Given
         FilmCharacterList filmCharacterList = new FilmCharacterList();
 
@@ -40,7 +43,6 @@ class FilmCharacterListTest {
 
         // Then
         assertNotNull(filmCharacters);
-        assertTrue(filmCharacters instanceof LinkedList);
     }
 
     @Test
@@ -82,7 +84,8 @@ class FilmCharacterListTest {
         List<FilmCharacter> results = filmCharacterList.getRaw();
 
         // Then
-        assertEquals(filmCharacters, results);
+        assertEquals(1, results.size());
+        assertTrue(results.contains(filmCharacter));
     }
 
     @Test
@@ -103,38 +106,62 @@ class FilmCharacterListTest {
     @Test
     @DisplayName("Adding FilmCharacter")
     void shouldAddToTheList() {
+        // Given
+        filmCharacterList = new FilmCharacterList();
+
         // When
         filmCharacterList.add(filmCharacter);
 
         // Then
-        verify(filmCharacters).add(eq(filmCharacter));
+        List<FilmCharacter> results = filmCharacterList.getRaw();
+        assertTrue(results.contains(filmCharacter));
     }
 
     @Test
-    @DisplayName("Clearing empty list")
-    void shouldDoNothing() {
-        // Given
-        when(filmCharacters.isEmpty())
-                .thenReturn(true);
-
+    @DisplayName("Clearing list")
+    void shouldMakeListEmpty() {
         // When
-        filmCharacterList.clearWhenNotEmpty();
+        filmCharacterList.clear();
 
         // Then
-        verify(filmCharacters, never()).clear();
+        List<FilmCharacter> results = filmCharacterList.getRaw();
+        assertFalse(results.contains(filmCharacter));
     }
 
     @Test
-    @DisplayName("Clearing not empty list")
-    void shouldClearInternalList() {
-        // Given
-        when(filmCharacters.isEmpty())
-                .thenReturn(false);
+    @DisplayName("Checking, that contains a null value")
+    void shouldNotAcceptScenario() {
+        // When & Then
+        NullPointerException exception = assertThrows(
+                NullPointerException.class,
+                () -> filmCharacterList.contains(null)
+        );
 
+        assertTrue(exception
+                .getMessage()
+                .contains("is marked non-null but is null")
+        );
+    }
+
+    @Test
+    @DisplayName("Checking, that contains the same FilmCharacter")
+    void shouldReturnTrue() {
         // When
-        filmCharacterList.clearWhenNotEmpty();
+        boolean result = filmCharacterList.contains(filmCharacter);
 
         // Then
-        verify(filmCharacters).clear();
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("Checking, that contains a different FilmCharacter")
+    void shouldReturnFalse() {
+        FilmCharacter filmCharacter = mock(FilmCharacter.class);
+
+        // When
+        boolean result = filmCharacterList.contains(filmCharacter);
+
+        // Then
+        assertFalse(result);
     }
 }

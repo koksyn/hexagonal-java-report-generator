@@ -25,4 +25,20 @@ public class FilmCharacter {
         this.planetId = planetId;
         this.planetName = planetName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof FilmCharacter) {
+            FilmCharacter filmCharacter = (FilmCharacter) obj;
+
+            return filmCharacter.filmId.equals(filmId) &&
+                    filmCharacter.filmName.equals(filmName) &&
+                    filmCharacter.characterId.equals(characterId) &&
+                    filmCharacter.characterName.equals(characterName) &&
+                    filmCharacter.planetId.equals(planetId) &&
+                    filmCharacter.planetName.equals(planetName);
+        }
+
+        return false;
+    }
 }

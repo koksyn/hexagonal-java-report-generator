@@ -1,7 +1,7 @@
 package com.report.adapter.swapi.client.service;
 
 import com.report.adapter.swapi.client.vo.EndpointName;
-import com.report.application.meta.SwapiEntity;
+import com.report.application.entity.SwapiEntity;
 import org.modelmapper.ModelMapper;
 
 import java.lang.reflect.ParameterizedType;

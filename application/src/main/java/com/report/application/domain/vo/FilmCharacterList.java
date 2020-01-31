@@ -1,13 +1,12 @@
 package com.report.application.domain.vo;
 
-import lombok.Getter;
 import lombok.NonNull;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class FilmCharacterList {
-    @Getter
     private final List<FilmCharacter> raw;
 
     public FilmCharacterList() {
@@ -15,16 +14,23 @@ public class FilmCharacterList {
     }
 
     public FilmCharacterList(@NonNull final List<FilmCharacter> raw) {
-        this.raw = raw;
+        this.raw = new LinkedList<>(raw);
     }
 
     public void add(@NonNull final FilmCharacter filmCharacter) {
         raw.add(filmCharacter);
     }
 
-    public void clearWhenNotEmpty() {
-        if(!raw.isEmpty()) {
-            raw.clear();
-        }
+    public void clear() {
+        raw.clear();
+    }
+
+    public List<FilmCharacter> getRaw() {
+        return Collections.unmodifiableList(raw);
+    }
+
+    public boolean contains(@NonNull final FilmCharacter filmCharacter) {
+        return raw.stream()
+                .anyMatch(item -> item.equals(filmCharacter));
     }
 }

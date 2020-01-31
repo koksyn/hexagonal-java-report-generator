@@ -10,8 +10,4 @@ public class CharacterPhrase {
     public CharacterPhrase(@NonNull final String raw) {
         this.raw = raw;
     }
-
-    public boolean differ(@NonNull CharacterPhrase characterPhrase) {
-        return !getRaw().equals(characterPhrase.getRaw());
-    }
 }

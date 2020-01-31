@@ -13,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ReportTest {
@@ -181,84 +180,7 @@ class ReportTest {
                 snapshot.getReportStatus()
                         .getRaw()
         );
-        verify(filmCharacterList).clearWhenNotEmpty();
-    }
-
-    @Test
-    @DisplayName("Preparing for processing, when planetName argument is different than inside domain")
-    void shouldChangePlanetNameAndStatusWithCleaningList() {
-        // Given
-        FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
-        ReportSnapshot snapshot =
-                new ReportSnapshot(reportId, characterPhrase, planetName, filmCharacterList, reportStatus);
-        Report report = Report.fromSnapshot(snapshot);
-        PlanetName anotherName = new PlanetName("another");
-
-        // When
-        report.prepareForProcessing(characterPhrase, anotherName);
-
-        // Then
-        snapshot = report.toSnapshot();
-
-        assertEquals(characterPhrase, snapshot.getCharacterPhrase());
-        assertEquals(anotherName, snapshot.getPlanetName());
-        assertEquals(
-                com.report.application.domain.type.ReportStatus.INCOMPLETE,
-                snapshot.getReportStatus()
-                        .getRaw()
-        );
-        verify(filmCharacterList).clearWhenNotEmpty();
-    }
-
-    @Test
-    @DisplayName("Preparing for processing, when characterPhrase argument is different than inside domain")
-    void shouldChangeCharacterPhraseAndStatusWithCleaningList() {
-        // Given
-        FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
-        ReportSnapshot snapshot =
-                new ReportSnapshot(reportId, characterPhrase, planetName, filmCharacterList, reportStatus);
-        Report report = Report.fromSnapshot(snapshot);
-        CharacterPhrase anotherPhrase = new CharacterPhrase("another");
-
-        // When
-        report.prepareForProcessing(anotherPhrase, planetName);
-
-        // Then
-        snapshot = report.toSnapshot();
-
-        assertEquals(anotherPhrase, snapshot.getCharacterPhrase());
-        assertEquals(planetName, snapshot.getPlanetName());
-        assertEquals(
-                com.report.application.domain.type.ReportStatus.INCOMPLETE,
-                snapshot.getReportStatus()
-                        .getRaw()
-        );
-        verify(filmCharacterList).clearWhenNotEmpty();
-    }
-
-    @Test
-    @DisplayName("Preparing for processing, when all arguments are identical like inside domain")
-    void shouldChangeStatusWithCleaningList() {
-        // Given
-        FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
-        ReportSnapshot snapshot =
-                new ReportSnapshot(reportId, characterPhrase, planetName, filmCharacterList, reportStatus);
-        Report report = Report.fromSnapshot(snapshot);
-
-        // When
-        report.prepareForProcessing(characterPhrase, planetName);
-
-        // Then
-        snapshot = report.toSnapshot();
-
-        assertEquals(characterPhrase, snapshot.getCharacterPhrase());
-        assertEquals(planetName, snapshot.getPlanetName());
-        assertEquals(
-                com.report.application.domain.type.ReportStatus.INCOMPLETE,
-                snapshot.getReportStatus()
-                        .getRaw()
-        );
-        verify(filmCharacterList).clearWhenNotEmpty();
+        verify(filmCharacterList).clear();
     }
 
     @Test
@@ -296,7 +218,7 @@ class ReportTest {
     }
 
     @Test
-    @DisplayName("Adding FilmCharacter")
+    @DisplayName("Adding FilmCharacter, when it was not added before")
     void shouldAddItToTheList() {
         // Given
         FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
@@ -314,5 +236,27 @@ class ReportTest {
         FilmCharacter captured = captor.getValue();
         assertNotNull(captured);
         assertEquals(filmCharacter, captured);
+    }
+
+    @Test
+    @DisplayName("Adding FilmCharacter, when it was added before")
+    void shouldNotAcceptDuplicates() {
+        // Given
+        FilmCharacterList filmCharacterList = mock(FilmCharacterList.class);
+
+        ReportSnapshot snapshot =
+                new ReportSnapshot(reportId, characterPhrase, planetName, filmCharacterList, reportStatus);
+        Report report = Report.fromSnapshot(snapshot);
+
+        when(filmCharacterList.contains(filmCharacter)).thenReturn(true);
+
+        // When & Then
+        LogicException exception = assertThrows(
+                LogicException.class,
+                () -> report.addFilmCharacter(filmCharacter)
+        );
+
+        assertTrue(exception.getMessage()
+                .contains("Cannot add"));
     }
 }

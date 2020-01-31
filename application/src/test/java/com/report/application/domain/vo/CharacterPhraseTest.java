@@ -59,45 +59,4 @@ class CharacterPhraseTest {
         // Then
         assertEquals(CHARACTER_PHRASE, rawResult);
     }
-
-    @Test
-    @DisplayName("Comparison with null value")
-    void shouldNotCompareNullValue() {
-        // When & Then
-        NullPointerException exception = assertThrows(
-                NullPointerException.class,
-                () -> characterPhrase.differ(null)
-        );
-
-        assertTrue(exception
-                .getMessage()
-                .contains("is marked non-null but is null")
-        );
-    }
-
-    @Test
-    @DisplayName("Comparison with equal value")
-    void shouldReturnFalse() {
-        // Given
-        CharacterPhrase sameCharacterPhrase = new CharacterPhrase(CHARACTER_PHRASE);
-
-        // When
-        boolean result = characterPhrase.differ(sameCharacterPhrase);
-
-        // Then
-        assertFalse(result);
-    }
-
-    @Test
-    @DisplayName("Comparison with differ value")
-    void shouldReturnTrue() {
-        // Given
-        CharacterPhrase differCharacterPhrase = new CharacterPhrase("test");
-
-        // When
-        boolean result = characterPhrase.differ(differCharacterPhrase);
-
-        // Then
-        assertTrue(result);
-    }
 }
