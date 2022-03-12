@@ -7,7 +7,7 @@
     <groupId>com.report</groupId>
     <artifactId>report</artifactId>
     <name>report</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <description>Report system</description>
     <packaging>pom</packaging>
 
